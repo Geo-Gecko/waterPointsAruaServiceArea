@@ -33,6 +33,8 @@
         <script src="data/counts_1.js"></script>
         <script src="data/Waterpoints__NON_operational_2.js"></script>
         <script src="data/Waterpoints_operational_3.js"></script>
+        <script src="js/jquery.min.js"></script>
+		<script src="js/d3.v3.min.js"></script>
         <script>
         var highlightLayer;
         function highlightFeature(e) {
@@ -338,7 +340,23 @@
             style: style_counts_1_0,
         });
         bounds_group.addLayer(layer_counts_1);
-        map.addLayer(layer_counts_1);
+        // map.addLayer(layer_counts_1);
+        
+        var datalayer;
+        $.getJSON('data/all.geojson', function(data){
+                    datalayer = L.geoJson(data, {
+                        pointToLayer : function (feature, latlng) {
+                            var geojsonMarkerOptions = {
+						radius: 2,
+						fillColor: "#000",
+						color: "#000",
+						weight: 1,
+						opacity: 1,
+						fillOpacity: 0.8
+					};
+        				return L.circleMarker(latlng, geojsonMarkerOptions);}	
+                    }).addTo(map)
+                    }); 
         function pop_Waterpoints__NON_operational_2(feature, layer) {
             layer.on({
                 mouseout: function(e) {
@@ -786,6 +804,9 @@
         var baseMaps = {};
         L.control.layers(baseMaps,{'<img src="legend/Waterpoints_operational_3.png" /> Waterpoints_operational': layer_Waterpoints_operational_3,'<img src="legend/Waterpoints__NON_operational_2.png" /> Waterpoints__NON_operational': layer_Waterpoints__NON_operational_2,'counts<br /><table><tr><td style="text-align: center;"><img src="legend/counts_1_0850.png" /></td><td> 0 - 85 </td></tr><tr><td style="text-align: center;"><img src="legend/counts_1_852411.png" /></td><td> 85 - 241 </td></tr><tr><td style="text-align: center;"><img src="legend/counts_1_2414832.png" /></td><td> 241 - 483 </td></tr><tr><td style="text-align: center;"><img src="legend/counts_1_4839343.png" /></td><td> 483 - 934 </td></tr><tr><td style="text-align: center;"><img src="legend/counts_1_93422584.png" /></td><td> 934 - 2258 </td></tr></table>': layer_counts_1,"Positron": overlay_Positron_0,},{collapsed:false}).addTo(map);
         setBounds();
+        </script>
+        <script>
+            
         </script>
     </body>
 </html>
